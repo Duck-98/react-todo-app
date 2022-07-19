@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "@emotion/styled";
+import Todo from "./components/Todo";
 
-function App() {
+const Container = styled.div`
+  background-color: aliceblue;
+`;
+
+const App = () => {
+  const todoData = [
+    {
+      id: "1",
+      title: "공부하기",
+      completed: true,
+    },
+    {
+      id: "2",
+      title: "청소하기",
+      completed: true,
+    },
+    {
+      id: "3",
+      title: "운동하기",
+      completed: false,
+    },
+  ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Container>
+        <Todo tododata={todoData} />
+      </Container>
+    </>
   );
-}
+};
 
 export default App;
