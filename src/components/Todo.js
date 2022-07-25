@@ -19,13 +19,14 @@ const Button = styled.div`
   float: right;
 `;
 
-const Todo = ({ title, completed }) => {
+const Todo = ({ title, completed, data, getData }) => {
+  const handleClick = (id) => {};
   return (
     <Container>
       <div className="content">
         <input type="checkbox" defaultChecked={completed} />
         {title}
-        <Button>x</Button>
+        <Button onClick={handleClick(data.id)}>x</Button>
       </div>
     </Container>
   );
