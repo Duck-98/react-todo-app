@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Todo from "./components/Todo";
+import Form from "./components/Form";
 
 const Container = styled.div`
   margin: auto;
@@ -49,10 +50,6 @@ const App = () => {
   ]);
   const [value, setValue] = useState("");
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let newTodo = {
@@ -71,38 +68,8 @@ const App = () => {
           <div className="title">
             <h1>할 일 목록</h1>
           </div>
-          {todoData.map((data) => (
-            <Todo tododata={todoData} setTodoData={setTodoData} key={data.id} />
-            /*
-            <TodoContainer>
-              <div className="content" key={data.id}>
-                <input
-                  type="checkbox"
-                  defaultChecked={data.completed}
-                  onChange={() => {
-                    handleCompletedChange(data.id);
-                  }}
-                />
-                {data.completed ? (
-                  <span className="line">{data.title}</span>
-                ) : (
-                  <span>{data.title}</span> 
-                )}
-                <TodoButton onClick={() => handleClick(data.id)}>x</TodoButton>
-              </div>
-            </TodoContainer>
-            */
-          ))}
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name={value}
-              placeholder="할일을 입력해주세요."
-              onChange={handleChange}
-              className="input"
-            />
-            <input type="submit" value="입력" className="btn" />
-          </form>
+          <Todo todoData={todoData} setTodoData={setTodoData} />
+          <Form setValue={setValue} value={value} handleSubmit={handleSubmit} />
         </div>
       </Container>
     </>

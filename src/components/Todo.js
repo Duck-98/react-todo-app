@@ -21,11 +21,11 @@ const TodoButton = styled.div`
 
 const Todo = ({ todoData, setTodoData }) => {
   const handleClick = (id) => {
-    let newTodoData = todoData.filter((data) => data.id !== id);
+    let newTodoData = todoData.filter((todoData) => todoData.id !== id);
     console.log(newTodoData);
     setTodoData(newTodoData);
   };
-  console.log(todoData);
+
   const handleCompletedChange = (id) => {
     let newTodoData = todoData.filter((data) => {
       if (data.id === id) {
@@ -36,23 +36,27 @@ const Todo = ({ todoData, setTodoData }) => {
     setTodoData(newTodoData);
   };
   return (
-    <TodoContainer>
-      <div className="content" key={todoData.id}>
-        <input
-          type="checkbox"
-          defaultChecked={todoData.completed}
-          onChange={() => {
-            handleCompletedChange(todoData.id);
-          }}
-        />
-        {todoData.completed ? (
-          <span className="line">{todoData.title}</span>
-        ) : (
-          <span>{todoData.title}</span>
-        )}
-        <TodoButton onClick={() => handleClick(todoData.id)}>x</TodoButton>
-      </div>
-    </TodoContainer>
+    <>
+      {todoData.map((data) => (
+        <TodoContainer>
+          <div className="content" key={data.id}>
+            <input
+              type="checkbox"
+              defaultChecked={data.completed}
+              onChange={() => {
+                handleCompletedChange(data.id);
+              }}
+            />
+            {data.completed ? (
+              <span className="line">{data.title}</span>
+            ) : (
+              <span>{data.title}</span>
+            )}
+            <TodoButton onClick={() => handleClick(data.id)}>x</TodoButton>
+          </div>
+        </TodoContainer>
+      ))}
+    </>
   );
 };
 
