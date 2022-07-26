@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const Container = styled.div`
+const TodoContainer = styled.div`
     .content {
       border-bottom: 1px #ccc dotted;
       text-decoration: none;
@@ -9,7 +9,7 @@ const Container = styled.div`
     }
   }
 `;
-const Button = styled.div`
+const TodoButton = styled.div`
   color: #fff;
   border: none;
   background-color: grey;
@@ -19,16 +19,40 @@ const Button = styled.div`
   float: right;
 `;
 
-const Todo = ({ title, completed, data, getData }) => {
-  const handleClick = (id) => {};
+const Todo = ({ todoData, setTodoData }) => {
+  const handleClick = (id) => {
+    let newTodoData = todoData.filter((data) => data.id !== id);
+    console.log(newTodoData);
+    setTodoData(newTodoData);
+  };
+  console.log(todoData);
+  const handleCompletedChange = (id) => {
+    let newTodoData = todoData.filter((data) => {
+      if (data.id === id) {
+        data.completed = !data.completed;
+      }
+      return data;
+    });
+    setTodoData(newTodoData);
+  };
   return (
-    <Container>
-      <div className="content">
-        <input type="checkbox" defaultChecked={completed} />
-        {title}
-        <Button onClick={handleClick(data.id)}>x</Button>
+    <TodoContainer>
+      <div className="content" key={todoData.id}>
+        <input
+          type="checkbox"
+          defaultChecked={todoData.completed}
+          onChange={() => {
+            handleCompletedChange(todoData.id);
+          }}
+        />
+        {todoData.completed ? (
+          <span className="line">{todoData.title}</span>
+        ) : (
+          <span>{todoData.title}</span>
+        )}
+        <TodoButton onClick={() => handleClick(todoData.id)}>x</TodoButton>
       </div>
-    </Container>
+    </TodoContainer>
   );
 };
 

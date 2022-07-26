@@ -16,29 +16,21 @@ const Container = styled.div`
       border-bottom: 1px #ccc dotted;
       text-decoration: none;
       padding: 10px;
+      .line {
+        text-decoration: line-through;
+      }
+    }
+  }
+  form {
+    display: flex;
+    .input {
+      flex: 10;
     }
   }
 `;
-const TodoContainer = styled.div`
-.content {
-  border-bottom: 1px #ccc dotted;
-  text-decoration: none;
-  padding: 10px;
-}
-}
-`;
-const TodoButton = styled.div`
-  color: #fff;
-  border: none;
-  background-color: grey;
-  padding: 5px 9px;
-  border-radius: 50%;
-  cursor: pointer;
-  float: right;
-`;
 
 const App = () => {
-  const todoData = [
+  const [todoData, setTodoData] = useState([
     {
       id: "1",
       title: "공부하기",
@@ -54,11 +46,24 @@ const App = () => {
       title: "운동하기",
       completed: false,
     },
-  ];
-  const handleClick = (id) => {
-    let newTodoData = todoData.filter((data) => data.id !== id);
-    console.log(newTodoData);
+  ]);
+  const [value, setValue] = useState("");
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let newTodo = {
+      id: Date.now(),
+      title: value,
+      completed: false,
+    };
+    setTodoData([...todoData, newTodo]);
+    console.log(newTodo);
+  };
+
   return (
     <>
       <Container>
@@ -66,23 +71,38 @@ const App = () => {
           <div className="title">
             <h1>할 일 목록</h1>
           </div>
-          {this.todoData.map((data) => (
+          {todoData.map((data) => (
+            <Todo tododata={todoData} setTodoData={setTodoData} key={data.id} />
             /*
-            <Todo
-              title={data.title}
-              completed={data.completed}
-              key={data.id}
-              data={data}
-              getData={getData}
-            />*/
             <TodoContainer>
               <div className="content" key={data.id}>
-                <input type="checkbox" defaultChecked={data.completed} />
-                {data.title}
+                <input
+                  type="checkbox"
+                  defaultChecked={data.completed}
+                  onChange={() => {
+                    handleCompletedChange(data.id);
+                  }}
+                />
+                {data.completed ? (
+                  <span className="line">{data.title}</span>
+                ) : (
+                  <span>{data.title}</span> 
+                )}
                 <TodoButton onClick={() => handleClick(data.id)}>x</TodoButton>
               </div>
             </TodoContainer>
+            */
           ))}
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name={value}
+              placeholder="할일을 입력해주세요."
+              onChange={handleChange}
+              className="input"
+            />
+            <input type="submit" value="입력" className="btn" />
+          </form>
         </div>
       </Container>
     </>
